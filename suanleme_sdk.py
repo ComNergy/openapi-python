@@ -8,7 +8,7 @@ from Crypto.Hash import SHA256
 from Crypto.Cipher import PKCS1_v1_5
 import requests
 
-
+# 当前 Python 示例仅基于 RSA BASE64 方式
 class SuanlemeAPIBase:
     """
     基类，实现请求的签名和加密

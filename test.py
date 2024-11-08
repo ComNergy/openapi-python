@@ -1,5 +1,6 @@
 from suanleme_sdk import SuanlemeAPI
 
+# 当前 Python 示例仅基于 RSA BASE64 方式
 api = SuanlemeAPI(
     token="<your-token>",
 )
@@ -33,8 +34,6 @@ docker_compose_content = """services:
               count: 1  # 预留的 GPU 数量
               capabilities: [ gpu ]  # 指定 GPU 功能
 """
-
-
 print(api.create_task(
     name="te1st",
     desc="test",
