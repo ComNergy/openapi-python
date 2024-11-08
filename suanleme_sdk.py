@@ -139,11 +139,11 @@ class SuanlemeAPI(SuanlemeAPIBase):
     获取当前页的任务列表
     """
 
-    def get_task_list_page(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
+    def get_task_list_page(self, page: int = 1, page_size: int = 10, search_value="") -> Dict[str, Any]:
         response = self.make_request(
             "/tasks/self_task",
             method="GET",
-            data={"id": 1, "page": page, "page_size": page_size},
+            data={"id": 1, "page": page, "page_size": page_size, "search_value": search_value},
         )
 
         if response.get("code") != "0000":
@@ -187,55 +187,39 @@ class SuanlemeAPI(SuanlemeAPIBase):
         return result
 
     # 创建任务，该接口暂未经过测试
+    # GPU ID 查询：https://fizuclq6u3i.feishu.cn/wiki/FCQ3w0ZLei8Y7NkGOpxcCoEsnBc
     def create_task(
         self,
         name: str,
         desc: str,
-        peer_income: float,
-        expect_time: str,
-        type: str,
-        runtime: int,
         points: int,
-        time_required: str,
-        is_welfare: bool,
-        cpu_required: Optional[int] = None,
-        memory_required: Optional[int] = None,
-        disk_required: Optional[int] = None,
-        gpu_required: List[str] = [],
-        is_run_bore: Optional[bool] = None,
-        domain_prefix: Optional[str] = None,
-        is_unrestricted_gpu: bool = False,
-        cuda_version: Optional[str] = None,
+        domain_prefix: str,
+        docker_compose_content: str,
         cuda_version_required: List[str] = [],
-        is_unrestricted_cuda_version: bool = False,
-        affinity: List[str] = [],
-        aversion: List[str] = [],
-        docker_compose_content: Optional[str] = None,
+        gpu_required: List[str] = [],
     ) -> Dict[str, Any]:
+        """
+        创建新任务
+        
+        Args:
+            name: 任务名称
+            desc: 任务描述
+            points: 节点数量
+            domain_prefix: 域名前缀
+            docker_compose_content: docker-compose 配置内容
+            
+        Returns:
+            Dict[str, Any]: API 响应结果
+        """
         data = {
             "name": name,
             "desc": desc,
-            "peer_income": peer_income,
-            "expect_time": expect_time,
-            "type": type,
-            "runtime": runtime,
             "points": points,
-            "package": "cabb339e-2238-46f1-925c-9deb3fa5fc22",
-            "cpu_required": cpu_required,
-            "memory_required": memory_required,
-            "disk_required": disk_required,
-            "gpu_required": gpu_required,
-            "is_run_bore": is_run_bore,
             "domain_prefix": domain_prefix,
-            "is_unrestricted_gpu": is_unrestricted_gpu,
-            "cuda_version": cuda_version,
-            "cuda_version_required": cuda_version_required,
-            "is_unrestricted_cuda_version": is_unrestricted_cuda_version,
-            "affinity": affinity,
-            "aversion": aversion,
-            "time_required": time_required,
-            "is_welfare": is_welfare,
             "docker_compose_content": docker_compose_content,
+            "cuda_version_required": cuda_version_required,
+            "gpu_required": gpu_required,
         }
-        return self.make_request("/tasks", method="POST", data=data)
+        
+        return self.make_request("/tasks/publish", method="POST", data=data)
 
