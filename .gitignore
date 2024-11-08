@@ -1,2 +1,4 @@
 pri.pem
 pub.pem
+
+*.pyc

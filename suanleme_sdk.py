@@ -195,8 +195,8 @@ class SuanlemeAPI(SuanlemeAPIBase):
         points: int,
         domain_prefix: str,
         docker_compose_content: str,
-        cuda_version_required: List[str] = [],
-        gpu_required: List[str] = [],
+        cuda_version_required: List[str] | None = None,
+        gpu_required: List[int] | None = None,
     ) -> Dict[str, Any]:
         """
         创建新任务
