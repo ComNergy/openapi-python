@@ -1,5 +1,6 @@
 from suanleme_sdk import SuanlemeAPI
-
+from gpu_dict import gpu_dict
+import time
 # 当前 Python 示例仅基于 RSA BASE64 方式
 api = SuanlemeAPI(
     token="<your-token>",
@@ -41,7 +42,16 @@ print(api.create_task(
     domain_prefix="test",
     docker_compose_content=docker_compose_content,
     cuda_version_required=["12.0", "12.1", "12.2", "12.3", "12.4", "12.5", "12.6", "12.7"],
-    gpu_required=[16, 7],
+    gpu_required=[gpu_dict["NVIDIA GeForce RTX 4090"], gpu_dict["NVIDIA GeForce RTX 4090D"]],
 ))
 
-print(api.get_task_list_page())
+task_list = api.get_task_list_page()
+print(task_list)
+
+for task_name, task_id in task_list["tasks"].items():
+    print(task_name, task_id)
+    task_info = api.get_task_info(task_id)
+    print(task_info)
+    time.sleep(1)
+    api.cancel_task(task_id)
+    print("cancel task", task_id)

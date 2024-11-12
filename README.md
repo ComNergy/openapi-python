@@ -29,6 +29,10 @@ pip install -r requirements.txt
    - 登录[共绩云管理后台](https://dockerweb.gongjiyun.com)
    - 导航至：账号管理 > API 管理 > 申请 Token
    - 生成RSA密钥对
+    ```bash
+    openssl genrsa -out pri.pem 2049
+    openssl rsa -in pri.pem -pubout -out pub.pem
+    ```
 
 2. 代码示例
 
@@ -38,8 +42,8 @@ from suanleme_sdk import SuanlemeAPI
 # 初始化客户端
 api = SuanlemeAPI(
     token="your-token",
-    pub_key="public.pem",  # RSA公钥路径
-    pri_key="private.pem"  # RSA私钥路径
+    pub_key="pub.pem",  # RSA公钥路径
+    pri_key="pri.pem"  # RSA私钥路径
 )
 
 # 获取任务列表
