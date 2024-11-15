@@ -30,7 +30,7 @@ pip install -r requirements.txt
    - 导航至：账号管理 > API 管理 > 申请 Token
    - 生成RSA密钥对
     ```bash
-    openssl genrsa -out pri.pem 2049
+    openssl genrsa -out pri.pem 2048
     openssl rsa -in pri.pem -pubout -out pub.pem
     ```
 
